@@ -1,30 +1,33 @@
-<script setup>
-import { RouterLink, RouterView } from "vue-router";
-import HelloWorld from "./components/HelloWorld.vue";
-</script>
-
 <template>
-  <header>
-    <img
-      alt="Vue logo"
-      class="logo"
-      src="@/assets/logo.svg"
-      width="125"
-      height="125"
-    />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header>
-
-  <RouterView />
+  <div>
+    <table border="1">
+      <caption>
+        All Airports
+      </caption>
+      <tr>
+        <th>Name</th>
+      </tr>
+      <tr v-for="airport in airports" :key="airport.id">
+        <td>{{ airport.name }}</td>
+      </tr>
+    </table>
+  </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      airports: [],
+    };
+  },
+  async created() {
+    this.airports = await (
+      await fetch("http://localhost:8090/airports")
+    ).json();
+  },
+};
+</script>
 
 <style scoped>
 header {
