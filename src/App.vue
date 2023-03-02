@@ -12,7 +12,7 @@
   </div>
   <Teleport to="body">
     <!-- use the modal component, pass in the prop -->
-    <modal :show="showModal" @close="showModal = false">
+    <modal :show="airportDetailId" @close="airportDetailId = false">
       <template #header>
         <h3>Airport details</h3>
       </template>
@@ -39,7 +39,6 @@ export default {
   data() {
     return {
       airports: [],
-      showModal: false,
       airportDetailId: 0,
       currentAirport: {
         id: 0,
@@ -58,6 +57,7 @@ export default {
   },
   watch: {
     async airportDetailId(newId) {
+      if (newId == 0) return;
       this.currentAirport = await (
         await fetch(`http://localhost:8090/airports/id/${newId}`)
       ).json();
