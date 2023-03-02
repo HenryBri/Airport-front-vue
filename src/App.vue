@@ -1,20 +1,14 @@
 <template>
   <div>
-    <table border="1">
-      <caption>
-        All Airports
-      </caption>
-      <tr>
-        <th>Name</th>
-        <th></th>
-      </tr>
-      <tr v-for="airport in airports" :key="airport.id">
-        <td>{{ airport.name }}</td>
-        <td>
-          <button @click="airportDetailId = airport.id">Show details</button>
-        </td>
-      </tr>
-    </table>
+    <table-template
+      caption="All airports"
+      :items="airports"
+      :showControlls="true"
+      @show="($event) => (airportDetailId = $event.id)"
+    >
+      <template #additionalHeaders><th></th></template>
+      <template #additionalColumns></template>
+    </table-template>
   </div>
   <Teleport to="body">
     <!-- use the modal component, pass in the prop -->
@@ -35,9 +29,12 @@
 
 <script>
 import Modal from "./components/Modal.vue";
+import TableTemplate from "./components/Table.vue";
+
 export default {
   components: {
     Modal,
+    TableTemplate,
   },
   data() {
     return {
