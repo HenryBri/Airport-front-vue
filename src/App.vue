@@ -6,25 +6,66 @@
       </caption>
       <tr>
         <th>Name</th>
+        <th></th>
       </tr>
       <tr v-for="airport in airports" :key="airport.id">
         <td>{{ airport.name }}</td>
+        <td>
+          <button @click="airportDetailId = airport.id">Show details</button>
+        </td>
       </tr>
     </table>
   </div>
+  <Teleport to="body">
+    <!-- use the modal component, pass in the prop -->
+    <modal :show="showModal" @close="showModal = false">
+      <template #header>
+        <h3>Airport details</h3>
+      </template>
+      <template #body>
+        <b>Name: </b>{{ currentAirport.name }}<br />
+        <b>Location: </b>{{ currentAirport.location }}<br />
+        <b>IATA code: </b>{{ currentAirport.IATA_code }}<br />
+        <b>ICAO code: </b>{{ currentAirport.ICAO_code }}<br />
+        <b>Info: </b>{{ currentAirport.info }}<br />
+      </template>
+    </modal>
+  </Teleport>
 </template>
 
 <script>
+import Modal from "./components/Modal.vue";
 export default {
+  components: {
+    Modal,
+  },
   data() {
     return {
       airports: [],
+      showModal: false,
+      airportDetailId: 0,
+      currentAirport: {
+        id: 0,
+        name: "",
+        location: "",
+        IATA_code: "",
+        ICAO_code: "",
+        info: "",
+      },
     };
   },
   async created() {
     this.airports = await (
       await fetch("http://localhost:8090/airports")
     ).json();
+  },
+  watch: {
+    async airportDetailId(newId) {
+      this.currentAirport = await (
+        await fetch(`http://localhost:8090/airports/id/${newId}`)
+      ).json();
+      this.showModal = true;
+    },
   },
 };
 </script>
