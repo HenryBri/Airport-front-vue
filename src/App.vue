@@ -18,6 +18,8 @@ import { RouterLink, RouterView } from "vue-router";
       <nav>
         <RouterLink to="/">All airports</RouterLink>
         <RouterLink to="/about">About</RouterLink>
+        <RouterLink to="/ICAO">ICAO to IATA</RouterLink>
+        <RouterLink to="/IATA">IATA to ICAO</RouterLink>
       </nav>
     </div>
   </header>

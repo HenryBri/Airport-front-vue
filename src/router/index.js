@@ -16,6 +16,16 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       component: () => import("../views/AboutView.vue"),
     },
+    {
+      path: '/ICAO',
+      name: 'ICAO',
+      component: () => import('../views/IataToIcao.vue')
+    },
+    {
+      path: '/IATA',
+      name: 'IATA',
+      component: () => import('../views/IcaoToIata.vue')
+    }
   ],
 });
 
